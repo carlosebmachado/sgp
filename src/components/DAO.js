@@ -3,12 +3,12 @@ class DAO {
         localStorage.setItem(product['_id'], JSON.stringify(product));
     }
     
-    static updateProduct() {
-    
+    static updateProduct(product) {
+        this.insertProduct(product);
     }
     
-    static deleteProduct() {
-    
+    static deleteProduct(id) {
+        localStorage.removeItem(id);
     }
     
     static selectProduct(id) {

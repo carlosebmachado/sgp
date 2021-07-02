@@ -7,7 +7,7 @@ import ListProducts from './pages/ListProducts';
 import NewProduct from './pages/NewProduct';
 
 function ContentWrapper() {
-    const [curPage, setPage] = useState(1);
+    const [curPage, setPage] = useState(0);
     const [id, setId] = useState(null);
 
     function setPageWithId(page, id = null) {

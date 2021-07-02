@@ -8,7 +8,6 @@ function ListProducts(props) {
 
     function getTableProducts() {
         var products = DAO.listProducts();
-        // console.log(products)
         return products.map(p => {
             return (
             <tr key={p['_id']}>
@@ -32,6 +31,7 @@ function ListProducts(props) {
 
     function deleteProduct(id) {
         DAO.deleteProduct(id);
+        window.location.reload();
     }
 
     return (

@@ -103,7 +103,7 @@ function NewProduct(props) {
                     <input type="text" id="exp-date" defaultValue={editProduct['exp-date']}></input>
                 </div>
                 <div className="FormGroup Size100">
-                    <input type="checkbox" id="perishable" value={editProduct['perishable'] ? 'checked' : ''} onClick={handleMandatoryExpDate}/>
+                    <input type="checkbox" id="perishable" defaultChecked={editProduct['perishable'] ? 'checked' : ''} onClick={handleMandatoryExpDate}/>
                     <label style={{display: 'inline-block', marginLeft: 15}}>Perecível?</label>
                 </div>
             </form>
