@@ -1,9 +1,11 @@
-import './Button.css';
+import '../styles/Button.css';
 
-export default props => {
+function Button(props) {
     return (
-        <a className="Button" style={{backgroundColor: props.color}}>
-            <span>{props.children}</span>
-        </a>
+        <button className="Button" onClick={() => {props.onClick(props.param)}} style={{backgroundColor: props.color || "var(--color-normal)"}}>
+            {props.children}
+        </button>
     );
 };
+
+export default Button;

@@ -1,6 +1,6 @@
-import './Header.css';
+import '../styles/Header.css';
 
-function Header(){
+function Header() {
     return (
         <header className="Header">
             <div className="content">

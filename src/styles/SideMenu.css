@@ -1,0 +1,35 @@
+.SideMenu {
+    background-color: var(--color-light-background);
+    margin: 15px 0 0 0;
+    border-radius: 5px;
+    min-width: 170px;
+}
+
+.SideMenu .TitleBg {
+    background-color: var(--color-primary);
+    padding: 10px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.SideMenu h3 {
+    color: var(--color-accent);
+    font-weight: lighter;
+}
+
+.SideMenu ul {
+    list-style-type: none;
+}
+
+.SideMenu ul li div {
+    cursor: pointer;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--color-dark-gray);
+    font-weight: 700;
+    border-bottom: 1px solid #ddd;
+}
+
+.SideMenu ul li div:hover {
+    background-color: #f5f5f5;
+}

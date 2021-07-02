@@ -1,12 +1,15 @@
-import './SideMenu.css';
+import '../styles/SideMenu.css';
 
-function SideMenu(){
+function SideMenu(props) {
+
     return (
         <nav className="SideMenu">
-            <h3>Menu</h3>
+            <div className="TitleBg">
+                <h3>Menu</h3>
+            </div>
             <ul>
-                <li><a href="">Listar produtos</a></li>
-                <li><a href="">Cadastrar produto</a></li>
+                <li><div onClick={() => {props.onClick(0)}}>Listar produtos</div></li>
+                <li><div onClick={() => {props.onClick(1)}}>Cadastrar produto</div></li>
             </ul>
         </nav>
     );

@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css';
 
 import Header from './components/Header';
 import ContentWrapper from './components/ContentWrapper';

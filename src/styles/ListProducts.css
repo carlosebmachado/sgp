@@ -1,9 +1,18 @@
 .ListProducts {
-    background-color: var(--color-light-background);
-    margin: 15px 0 0 15px;
-    padding: 20px 15px;
-    border-radius: 5px;
-    flex-grow: 1;
+    
+}
+
+.ListProducts h2 {
+    color: var(--color-dark-gray);
+}
+
+.ListProducts > .Button {
+    float: right;
+    margin: 40px 0 10px 0;
+}
+
+.ListProducts > .Message {
+    margin: 20px 0 0 0;
 }
 
 .ListProducts h2 {
@@ -28,4 +37,5 @@ th, td {
     border-bottom: 1px solid #ddd;
     padding: 5px;
     text-align: left;
+    color: var(--color-dark-gray);
 }
