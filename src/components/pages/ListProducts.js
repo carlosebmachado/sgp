@@ -5,83 +5,82 @@ import DAO from '../DAO';
 import '../../styles/ListProducts.css';
 
 
-function ListProducts(props) {
+class ListProducts extends React.Component {
+  constructor(props) {
+    super(props);
 
-    function getTableProducts() {
-        var products = DAO.listProducts();
-        return products.map(p => {
-            return (
-            <tr key={p['id']}>
-                <td>{p['name']}</td>
-                <td>{p['unity']}</td>
-                <td>{p['amount']}</td>
-                <td>{p['price']}</td>
-                <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
-                <td>{p['fabDate']}</td>
-                <td>{p['expDate']}</td>
-                <td><Button onClick={editProduct} param={p['id']}>Editar</Button></td>
-                <td><Button onClick={deleteProduct} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
-            </tr>
-            );
-        });
-    }
+    this.state = { tableData: DAO.listProducts(), success: false };
 
-    function editProduct(id) {
-        props.onClick(1, id);
-    }
+    this.editProduct = this.editProduct.bind(this);
+    this.addProduct = this.addProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
+  }
 
-    function deleteProduct(id) {
-        DAO.deleteProduct(id);
-        window.location.reload();
-    }
+  // Go to product page recovering the product from id.
+  editProduct(id) {
+    this.props.onClick(1, id);
+  }
 
+  // Go to product page to add a new product.
+  addProduct(param) {
+    this.props.onClick(1, '');
+  }
+
+  // Delete a product from id.
+  deleteProduct(id) {
+    DAO.deleteProduct(id);
+    this.setState({ tableData: DAO.listProducts() });
+    this.setState({ success: true });
+  }
+
+  render() {
     return (
-        <div className="ListProducts">
-            <h2>Listar Produtos</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Un. de Medida</th>
-                        <th>Quantidade</th>
-                        <th>Preço</th>
-                        <th>Perecível?</th>
-                        <th>Data de Validade</th>
-                        <th>Data de Fabracação</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {getTableProducts()}
-                    {/* <tr>
-                        <td>Abacaxi em Caldas</td>
-                        <td>UN</td>
-                        <td>10</td>
-                        <td>R$ 21,50</td>
-                        <td>Sim</td>
-                        <td>10/10/2021</td>
-                        <td>10/10/2019</td>
-                        <td><Button>Editar</Button></td>
-                        <td><Button color="var(--color-danger)">Excluir</Button></td>
-                    </tr>
-                    <tr>
-                        <td>Abacaxi em Caldas</td>
-                        <td>UN</td>
-                        <td>10</td>
-                        <td>R$ 21,50</td>
-                        <td>Sim</td>
-                        <td>10/10/2021</td>
-                        <td>10/10/2019</td>
-                        <td><Button>Editar</Button></td>
-                        <td><Button color="var(--color-danger)">Excluir</Button></td>
-                    </tr> */}
-                </tbody>
-            </table>
+      <div className="ListProducts">
+        <h2>Listar Produtos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Un. de Medida</th>
+              <th>Quantidade</th>
+              <th>Preço</th>
+              <th>Perecível?</th>
+              <th>Data de Validade</th>
+              <th>Data de Fabracação</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.tableData.map(p => {
+              return (
+                <tr key={p['id']}>
+                  <td>{p['name']}</td>
+                  <td>{p['unity']}</td>
+                  <td>{p['amount']}</td>
+                  <td>{p['price']}</td>
+                  <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
+                  <td>{p['fabDate']}</td>
+                  <td>{p['expDate']}</td>
+                  <td><Button onClick={(event) => this.editProduct(event)} param={p['id']}>Editar</Button></td>
+                  <td><Button onClick={(event) => this.deleteProduct(event)} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {
+          this.state.success ?
             <Message>Produto removido com sucesso.</Message>
-            <Button>Adicionar Produto</Button>
-        </div>
+            :
+            ""
+        }
+
+        <Button onClick={this.addProduct}>Adicionar Produto</Button>
+      </div>
     );
+  }
 }
 
 export default ListProducts;

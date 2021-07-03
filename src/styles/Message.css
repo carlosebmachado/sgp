@@ -1,8 +1,7 @@
 .Message {
-    background-color: #4BB543AA;
-    color: white;
-    padding: 5px;
-    text-align: center;
-    width: 100%;
-    border-radius: 5px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  width: 100%;
+  border-radius: 5px;
 }

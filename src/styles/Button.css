@@ -1,8 +1,8 @@
 .Button {
-    display: inline-block;
-    padding: 5px 10px 3px 10px;
-    cursor: pointer;
-    color: white;
-    border: none;
-    border-radius: 5px;
+  display: inline-block;
+  padding: 5px 10px 3px 10px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }

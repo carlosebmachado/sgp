@@ -1,41 +1,39 @@
-.ListProducts {
-    
+.ListProducts {}
+
+.ListProducts h2 {
+  color: var(--color-dark-gray);
+}
+
+.ListProducts>.Button {
+  float: right;
+  margin: 40px 0 10px 0;
+}
+
+.ListProducts>.Message {
+  margin: 20px 0 0 0;
 }
 
 .ListProducts h2 {
-    color: var(--color-dark-gray);
-}
-
-.ListProducts > .Button {
-    float: right;
-    margin: 40px 0 10px 0;
-}
-
-.ListProducts > .Message {
-    margin: 20px 0 0 0;
-}
-
-.ListProducts h2 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 tr:hover {
-    background-color: #f5f5f5
+  background-color: #f5f5f5
 }
 
 td {
-    height: 10px;
-    vertical-align: bottom;
+  height: 10px;
+  vertical-align: bottom;
 }
 
 th, td {
-    border-bottom: 1px solid #ddd;
-    padding: 5px;
-    text-align: left;
-    color: var(--color-dark-gray);
+  border-bottom: 1px solid #ddd;
+  padding: 5px;
+  text-align: left;
+  color: var(--color-dark-gray);
 }

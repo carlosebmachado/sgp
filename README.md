@@ -1,8 +1,10 @@
-# prod-system
+# Product Management System
 
-## require
-node js
-## install
-- npm install
-## run
-- npm start
+### Required packages
+- Node.js
+
+### Install command
+- ```npm install```
+
+### Run command
+- ```npm start```

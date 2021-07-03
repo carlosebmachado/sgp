@@ -5,9 +5,10 @@
   --color-dark-background: #eef0f1;
   --color-light-gray: #707070;
   --color-dark-gray: #414141;
-  
   --color-danger: #dc3545;
   --color-normal: #0062cc;
+  --color-ok: #4BB543AA;
+  --color-error: #dc3545AA;
 }
 
 * {

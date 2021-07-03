@@ -2,6 +2,8 @@ import React from 'react';
 import DAO from '../DAO';
 import Mask from '../Mask';
 import Button from '../Button';
+import Message from '../Message';
+import moment from 'moment';
 import '../../styles/ProductsForm.css';
 
 
@@ -11,18 +13,19 @@ class ProductsForm extends React.Component {
 
     if (props.id !== '') {
       var editProduct = DAO.selectProduct(props.id);
-      this.state = { 
+      this.state = {
         id: editProduct['id'],
         name: editProduct['name'],
         unity: editProduct['unity'],
         amount: editProduct['amount'],
-        price: Mask.currencyMask(editProduct['price']),
+        price: editProduct['price'],
         fabDate: editProduct['fabDate'],
         expDate: editProduct['expDate'],
-        perishable: editProduct['perishable']
+        perishable: editProduct['perishable'],
+        error: false
       };
     } else {
-      this.state = { id: '', name: '', unity: '', amount: '', price: 'R$ 0,00', fabDate: '', expDate: '', perishable: false };
+      this.state = { id: '', name: '', unity: 'none', amount: '', price: 'R$ 0,00', fabDate: '__/__/____', expDate: '__/__/____', perishable: false, error: false, message: 'Por favor, preencha todos os campos.' };
     }
 
     this.handleIdChange = this.handleIdChange.bind(this);
@@ -36,6 +39,8 @@ class ProductsForm extends React.Component {
     this.clear = this.clear.bind(this);
     this.getActivityName = this.getActivityName.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.setMandatory = this.setMandatory.bind(this);
+    this.setError = this.setError.bind(this);
   }
 
   handleIdChange(event) {
@@ -43,7 +48,9 @@ class ProductsForm extends React.Component {
   }
 
   handleNameChange(event) {
-    this.setState({ name: event.target.value });
+    var value = Mask.removeNonLetter(event.target.value);
+    value = Mask.limitMask(value, 50);
+    this.setState({ name: value });
   }
 
   handleUnityChange(event) {
@@ -51,7 +58,15 @@ class ProductsForm extends React.Component {
   }
 
   handleAmountChange(event) {
-    this.setState({ amount: event.target.value });
+    var value = '';
+    if (this.state.unity === 'Litro') {
+      value = Mask.literMask(event.target.value);
+    } else if (this.state.unity === 'Quilograma') {
+      value = Mask.kiloMask(event.target.value);
+    } else if (this.state.unity === 'Unidade') {
+      value = Mask.unityMask(event.target.value);
+    }
+    this.setState({ amount: value });
   }
 
   handlePriceChange(event) {
@@ -60,28 +75,73 @@ class ProductsForm extends React.Component {
   }
 
   handleFabDateChange(event) {
-    this.setState({ fabDate: event.target.value });
+    var value = Mask.dateMask(event.target.value);
+    this.setState({ fabDate: value });
   }
 
   handleExpDateChange(event) {
-    this.setState({ expDate: event.target.value });
+    var value = Mask.dateMask(event.target.value);
+    this.setState({ expDate: value });
   }
 
   handlePerishableChange(event) {
-    var expDateInput = document.querySelector('#expDate');
-
-    if (event.target.checked === false)
-      expDateInput.setAttribute('class', '');
-    else
-      expDateInput.setAttribute('class', 'Mandatory');
-
+    this.setMandatory('#expDate', event.target.checked);
     this.setState({ perishable: event.target.checked });
   }
 
   // Save or update the new product.
   handleSubmit(event) {
-    var product = {};
+    var someError = false;
 
+    if (this.state.name === '') {
+      this.setError('#name', true);
+      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      someError = true;
+    }
+    if (this.state.unity === 'none') {
+      this.setError('#unity', true);
+      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      someError = true;
+    }
+    if (this.state.price === 'R$ 0,00') {
+      this.setError('#price', true);
+      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      someError = true;
+    }
+    if (!moment(this.state.fabDate, 'DD/MM/YYYY').isValid()) {
+      this.setError('#fabDate', true);
+      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      someError = true;
+    }
+    if (this.state.perishable && !moment(this.state.expDate, 'DD/MM/YYYY').isValid()) {
+      this.setError('#expDate', true);
+      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      someError = true;
+    }
+    if (this.state.perishable) {
+      if(Date.parse(Mask.dateToGlobal(this.state.fabDate)) > Date.parse(Mask.dateToGlobal(this.state.expDate))){
+        this.setError('#fabDate', true);
+        this.setError('#expDate', true);
+        this.setState({ message: 'A data de fabricação não pode ser maior que a data de validade.' })
+        someError = true;
+     }
+    }
+    if(this.state.perishable && Date.parse(Date()) > Date.parse(Mask.dateToGlobal(this.state.expDate))){
+      this.setError('#expDate', true);
+      this.setState({ message: 'O produto está vencido.' })
+      someError = true;
+   }
+    
+    if (someError) {
+      this.setState({ error: true });
+      event.preventDefault();
+      return;
+    } else {
+      this.setState({ error: false });
+    }
+
+    // create the product json
+    var product = {};
     product['name'] = this.state.name;
     product['unity'] = this.state.unity;
     product['amount'] = this.state.amount;
@@ -89,6 +149,11 @@ class ProductsForm extends React.Component {
     product['fabDate'] = this.state.fabDate;
     product['expDate'] = this.state.expDate;
     product['perishable'] = this.state.perishable;
+    
+    // remove date mask if the product is perishable
+    if (!this.state.perishable) {
+      product['expDate'] = '';
+    }
 
     if (this.state.id !== '') {
       product['id'] = this.state.id;
@@ -99,26 +164,40 @@ class ProductsForm extends React.Component {
     }
 
     this.clear();
+  }
 
-    event.preventDefault();
+  setMandatory(id, value) {
+    var expDateInput = document.querySelector(id);
+    if (value)
+      expDateInput.setAttribute('class', 'Mandatory');
+    else
+      expDateInput.setAttribute('class', '');
+  }
+
+  setError(id, value) {
+    var expDateInput = document.querySelector(id);
+    if (value)
+      expDateInput.setAttribute('class', 'Error');
+    else
+      expDateInput.setAttribute('class', '');
   }
 
   // Set all values to default.
   clear() {
-      this.setState({ id: '' });
-      this.setState({ name: '' });
-      this.setState({ unity: '' });
-      this.setState({ amount: '' });
-      this.setState({ price: '' });
-      this.setState({ fabDate: '' });
-      this.setState({ expDate: '' });
-      this.setState({ perishable: false });
+    this.setState({ id: '' });
+    this.setState({ name: '' });
+    this.setState({ unity: 'none' });
+    this.setState({ amount: '' });
+    this.setState({ price: 'R$ 0,00' });
+    this.setState({ fabDate: '__/__/____' });
+    this.setState({ expDate: '__/__/____' });
+    this.setState({ perishable: false });
   }
 
   getActivityName() {
     return this.state.id !== '' ? 'Editar' : 'Cadastrar';
   }
-  
+
   cancel(param) {
     this.props.onClick(param);
   }
@@ -137,7 +216,12 @@ class ProductsForm extends React.Component {
 
         <div className="FormGroup Size33">
           <label>Un. de Medida</label>
-          <input type="text" id="unity" className="Mandatory" value={this.state.unity} onChange={this.handleUnityChange}></input>
+          <select id="unity" className="Mandatory" value={this.state.unity} onChange={this.handleUnityChange}>
+            <option value="none">Selecione a un. de medida</option>
+            <option value="Litro">Litro</option>
+            <option value="Quilograma">Quilograma</option>
+            <option value="Unidade">Unidade</option>
+          </select>
         </div>
 
         <div className="FormGroup Size33">
@@ -161,9 +245,16 @@ class ProductsForm extends React.Component {
         </div>
 
         <div className="FormGroup Size100">
-          <input type="checkbox" id="perishable" defaultChecked={this.state.perishable ? 'checked' : ''}  onChange={this.handlePerishableChange} />
+          <input type="checkbox" id="perishable" defaultChecked={this.state.perishable ? 'checked' : ''} onChange={this.handlePerishableChange} />
           <label style={{ display: 'inline-block', marginLeft: 15 }}>Perecível?</label>
         </div>
+
+        {
+          this.state.error ?
+            <Message color="var(--color-error)">{this.state.message}</Message>
+            :
+            ""
+        }
 
         <input type="submit" value="Salvar" />
         {/* <Button onClick={saveProduct}>Salvar</Button> */}
@@ -172,7 +263,6 @@ class ProductsForm extends React.Component {
     );
   }
 }
-
 
 // export default NewProduct;
 export default ProductsForm;
