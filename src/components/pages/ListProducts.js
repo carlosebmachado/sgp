@@ -1,8 +1,9 @@
-import '../../styles/ListProducts.css';
-
+import React from 'react';
 import Button from '../Button';
 import Message from '../Message';
 import DAO from '../DAO';
+import '../../styles/ListProducts.css';
+
 
 function ListProducts(props) {
 
@@ -10,16 +11,16 @@ function ListProducts(props) {
         var products = DAO.listProducts();
         return products.map(p => {
             return (
-            <tr key={p['_id']}>
+            <tr key={p['id']}>
                 <td>{p['name']}</td>
                 <td>{p['unity']}</td>
                 <td>{p['amount']}</td>
                 <td>{p['price']}</td>
                 <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
-                <td>{p['fab-date']}</td>
-                <td>{p['exp-date']}</td>
-                <td><Button onClick={editProduct} param={p['_id']}>Editar</Button></td>
-                <td><Button onClick={deleteProduct} param={p['_id']} color="var(--color-danger)">Excluir</Button></td>
+                <td>{p['fabDate']}</td>
+                <td>{p['expDate']}</td>
+                <td><Button onClick={editProduct} param={p['id']}>Editar</Button></td>
+                <td><Button onClick={deleteProduct} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
             </tr>
             );
         });

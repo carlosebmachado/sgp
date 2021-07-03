@@ -1,52 +1,52 @@
-.NewProduct {
+.ProductsForm {
 
 }
 
-.NewProduct h2 {
+.ProductsForm h2 {
     color: var(--color-dark-gray);
 }
 
-.NewProduct > .Button {
+.ProductsForm > .Button, .ProductsForm > input[type=submit] {
     float: right;
     margin: 0px 0 10px 0;
     margin-left: 10px;
 }
 
-.NewProduct form {
+.ProductsForm form {
     width: 100%;
     margin: 20px 0;
 }
 
-.NewProduct .FormGroup {
+.ProductsForm .FormGroup {
     border-right: 10px solid white;
     box-sizing: border-box;
     display: inline-block;
     margin-bottom: 30px;
 }
 
-.NewProduct .Size100 {
+.ProductsForm .Size100 {
     width: 100%;
 }
 
-.NewProduct .Size50 {
+.ProductsForm .Size50 {
     width: 49.9%;
 }
 
-.NewProduct .Size33 {
+.ProductsForm .Size33 {
     width: 33.3%;
 }
 
-.NewProduct .Size33:last-of-type, .NewProduct .Size33:last-of-type {
+.ProductsForm .Size33:last-of-type, .ProductsForm .Size33:last-of-type {
     border-right: none;
 }
 
-.NewProduct label {
+.ProductsForm label {
     display: block;
     margin-bottom: 10px;
     color: var(--color-dark-gray);
 }
 
-.NewProduct input[type=text] {
+.ProductsForm input[type=text] {
     display: inline-block;
     width: 100%;
     font-size: 1.1rem;
@@ -54,6 +54,16 @@
     border-radius: 5px;
     border: none;
     border-bottom: 1px solid #ddd;
+}
+
+.ProductsForm input[type=submit] {
+    display: inline-block;
+    padding: 5px 10px 3px 10px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-normal);
 }
 
 .Mandatory {
@@ -64,7 +74,7 @@
     border-left: 2px solid rgb(255, 75, 75) !important;
 }
 
-.NewProduct input[type=text]:focus {
+.ProductsForm input[type=text]:focus {
     outline: none;
     background-color: #eee;
 }

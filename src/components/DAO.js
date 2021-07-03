@@ -1,6 +1,6 @@
 class DAO {
     static insertProduct(product) {
-        localStorage.setItem(product['_id'], JSON.stringify(product));
+        localStorage.setItem(product['id'], JSON.stringify(product));
     }
     
     static updateProduct(product) {

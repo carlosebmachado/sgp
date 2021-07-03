@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/Message.css';
 
 function Message(props) {

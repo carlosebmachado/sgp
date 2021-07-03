@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '../styles/ContentWrapper.css';
 
 import SideMenu from './SideMenu';
 import Page from './pages/Page';
 import ListProducts from './pages/ListProducts';
-import NewProduct from './pages/NewProduct';
+import ProductsForm from './pages/ProductsForm';
 
 function ContentWrapper() {
     const [curPage, setPage] = useState(0);
-    const [id, setId] = useState(null);
+    const [id, setId] = useState('');
 
-    function setPageWithId(page, id = null) {
+    function setPageWithId(page, id = '') {
         setPage(page);
         setId(id);
     }
@@ -22,7 +22,7 @@ function ContentWrapper() {
                 curPage === 0 ?
                 <Page><ListProducts onClick={setPageWithId}/></Page>
                 :
-                <Page><NewProduct id={id} onClick={setPageWithId}/></Page>
+                <Page><ProductsForm id={id} onClick={setPageWithId}/></Page>
             }
         </div>
     );
