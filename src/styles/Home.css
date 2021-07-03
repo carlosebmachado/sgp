@@ -1,0 +1,33 @@
+.Home {}
+
+.Container {
+  width: 1280px;
+  max-width: 100%;
+  padding: 0 20px;
+  margin: 30px auto;
+}
+
+.Home .Box {
+  width: 100%;
+  background-color: var(--color-light-background);
+  margin: auto;
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+
+.Home h2 {
+  margin-bottom: 20px;
+  color: var(--color-dark-gray);
+  font-weight: lighter;
+}
+
+.Home p {
+  margin-bottom: 30px;
+  color: var(--color-dark-gray);
+}
+
+.Home a {
+  font-weight: bold;
+  color: var(--color-accent);
+  margin-bottom: 30px;
+}

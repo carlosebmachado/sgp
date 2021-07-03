@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import SideMenu from './SideMenu';
-import Page from './pages/Page';
-import ListProducts from './pages/ListProducts';
-import ProductsForm from './pages/ProductsForm';
+import Page from './pages/products/Tab';
+import ListProducts from './pages/products/ListProducts';
+import ProductsForm from './pages/products/ProductsForm';
 import '../styles/ContentWrapper.css';
 
 

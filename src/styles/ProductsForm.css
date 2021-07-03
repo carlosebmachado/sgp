@@ -81,3 +81,9 @@
   outline: none;
   background-color: #eee;
 }
+
+@media (max-width: 1200px) {
+  #unity, #amount, #price, #fabDate, #expDate {
+    display: block !important;
+  }
+}

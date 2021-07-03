@@ -1,19 +1,22 @@
 import React from 'react';
-import Button from '../Button';
-import Message from '../Message';
-import DAO from '../DAO';
-import '../../styles/ListProducts.css';
+import Button from '../../Button';
+import Message from '../../Message';
+import PopUp from '../../Popup';
+import DAO from '../../scripts/DAO';
+import '../../../styles/ListProducts.css';
 
 
 class ListProducts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { tableData: DAO.listProducts(), success: false };
+    this.state = { tableData: DAO.listProducts(), id: '', success: false, error: false, question: false };
 
     this.editProduct = this.editProduct.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.confirm = this.confirm.bind(this);
   }
 
   // Go to product page recovering the product from id.
@@ -26,11 +29,25 @@ class ListProducts extends React.Component {
     this.props.onClick(1, '');
   }
 
-  // Delete a product from id.
+  // Set id to delete and call delete popup menu.
   deleteProduct(id) {
-    DAO.deleteProduct(id);
+    this.setState({ question: true });
+    this.setState({ id: id});
+  }
+
+  // Delete a product from id.
+  confirm() {
+    DAO.deleteProduct(this.state.id);
     this.setState({ tableData: DAO.listProducts() });
     this.setState({ success: true });
+    this.setState({ error: false });
+    this.setState({ question: false });
+  }
+
+  cancel() {
+    this.setState({ success: false });
+    this.setState({ error: true });
+    this.setState({ question: false });
   }
 
   render() {
@@ -72,12 +89,25 @@ class ListProducts extends React.Component {
 
         {
           this.state.success ?
-            <Message>Produto removido com sucesso.</Message>
+            <Message>Produto excluído com sucesso.</Message>
+            :
+            ""
+        }
+        {
+          this.state.error ?
+            <Message color="var(--color-error)">Produto não excluído.</Message>
             :
             ""
         }
 
         <Button onClick={this.addProduct}>Adicionar Produto</Button>
+
+        {
+          this.state.question ?
+            <PopUp title="Aviso" message="Você tem certeza que deseja excluir o item?" cancel={this.cancel} confirm={this.confirm}></PopUp>
+            :
+            ""
+        }
       </div>
     );
   }

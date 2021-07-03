@@ -2,7 +2,10 @@
   background-color: var(--color-light-background);
   margin: 15px 0 0 0;
   border-radius: 5px;
-  min-width: 170px;
+  min-width: 200px;
+  flex-basis: 140px;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .SideMenu .TitleBg {
@@ -32,4 +35,10 @@
 
 .SideMenu ul li div:hover {
   background-color: #f5f5f5;
+}
+
+@media (max-width: 1200px) {
+  .SideMenu {
+    text-align: center;
+  }
 }

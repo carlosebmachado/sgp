@@ -1,10 +1,10 @@
 import React from 'react';
-import DAO from '../DAO';
-import Mask from '../Mask';
-import Button from '../Button';
-import Message from '../Message';
+import DAO from '../../scripts/DAO';
+import Mask from '../../scripts/Mask';
+import Button from '../../Button';
+import Message from '../../Message';
 import moment from 'moment';
-import '../../styles/ProductsForm.css';
+import '../../../styles/ProductsForm.css';
 
 
 class ProductsForm extends React.Component {
@@ -156,14 +156,17 @@ class ProductsForm extends React.Component {
     }
 
     if (this.state.id !== '') {
+      // if id is not empty, it'll update
       product['id'] = this.state.id;
       DAO.updateProduct(product);
     } else {
+      // if id is empty, it'll add as new product
       product['id'] = DAO.countProducts();
       DAO.insertProduct(product);
     }
 
     this.clear();
+    event.preventDefault();
   }
 
   setMandatory(id, value) {
@@ -192,12 +195,19 @@ class ProductsForm extends React.Component {
     this.setState({ fabDate: '__/__/____' });
     this.setState({ expDate: '__/__/____' });
     this.setState({ perishable: false });
+    this.setMandatory('#name', true);
+    this.setMandatory('#unity', true);
+    this.setMandatory('#price', true);
+    this.setMandatory('#fabDate', true);
+    this.setMandatory('#expDate', false);
   }
 
+  // Get page title.
   getActivityName() {
     return this.state.id !== '' ? 'Editar' : 'Cadastrar';
   }
 
+  // Cancel insert/update and returns to list products.
   cancel(param) {
     this.props.onClick(param);
   }
@@ -207,13 +217,16 @@ class ProductsForm extends React.Component {
       <form className="ProductsForm" onSubmit={this.handleSubmit}>
         <h2>{this.getActivityName()} Produto</h2>
 
+        {/* ID */}
         <input type="hidden" id="id" value={this.state.id} onChange={this.handleIdChange}></input>
 
+        {/* Name */}
         <div className="FormGroup Size100">
           <label>Nome</label>
           <input type="text" id="name" className="Mandatory" value={this.state.name} onChange={this.handleNameChange}></input>
         </div>
 
+        {/* Unit of Measurement */}
         <div className="FormGroup Size33">
           <label>Un. de Medida</label>
           <select id="unity" className="Mandatory" value={this.state.unity} onChange={this.handleUnityChange}>
@@ -224,26 +237,31 @@ class ProductsForm extends React.Component {
           </select>
         </div>
 
+        {/* Amount */}
         <div className="FormGroup Size33">
           <label>Quantidade</label>
           <input type="text" id="amount" value={this.state.amount} onChange={this.handleAmountChange}></input>
         </div>
 
+        {/* Price */}
         <div className="FormGroup Size33">
           <label>Preço</label>
           <input type="text" id="price" className="Mandatory" value={this.state.price} onChange={this.handlePriceChange}></input>
         </div>
 
+        {/* Manufacturing Date */}
         <div className="FormGroup Size50">
           <label>Data de Fabricação</label>
           <input type="text" id="fabDate" className="Mandatory" value={this.state.fabDate} onChange={this.handleFabDateChange}></input>
         </div>
 
+        {/* Expirations Date */}
         <div className="FormGroup Size50">
           <label>Data de Validade</label>
           <input type="text" id="expDate" value={this.state.expDate} onChange={this.handleExpDateChange}></input>
         </div>
 
+        {/* Is Perishable */}
         <div className="FormGroup Size100">
           <input type="checkbox" id="perishable" defaultChecked={this.state.perishable ? 'checked' : ''} onChange={this.handlePerishableChange} />
           <label style={{ display: 'inline-block', marginLeft: 15 }}>Perecível?</label>
@@ -257,7 +275,6 @@ class ProductsForm extends React.Component {
         }
 
         <input type="submit" value="Salvar" />
-        {/* <Button onClick={saveProduct}>Salvar</Button> */}
         <Button color="var(--color-danger)" onClick={(event) => this.cancel(event)} param={0}>Cancelar</Button>
       </form>
     );

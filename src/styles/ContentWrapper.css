@@ -5,4 +5,5 @@
   padding: 0 20px;
   margin: 30px auto;
   align-items: stretch;
+  flex-wrap: wrap;
 }
