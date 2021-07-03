@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../../styles/NewProduct.css';
 
 import DAO from './../DAO';
