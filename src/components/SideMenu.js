@@ -13,7 +13,7 @@ function SideMenu() {
         <li><a href="/manage">Cadastrar produto</a></li>
       </ul>
       <footer>
-        <small>By Carlos Machado</small>
+        <small>By Carlos Machado.</small>
       </footer>
     </nav>
   );
