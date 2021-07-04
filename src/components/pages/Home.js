@@ -1,15 +1,11 @@
 import React from 'react';
 import Header from '../Header';
-import Breadcrumb from '../Breadcrumb';
 import '../../styles/Home.css';
 
 function Home() {
   return (
     <div className="Home">
       <Header />
-      <Breadcrumb>
-        <span className="BCs" >Início</span>
-      </Breadcrumb>
       <div className="Container">
         <div className="Box">
           <h2>Bem vindo ao SGP</h2>

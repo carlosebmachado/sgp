@@ -11,7 +11,7 @@ function ListProducts() {
     <div className="ListProducts">
       <Header />
       <Breadcrumb>
-        <a href="/home"className="BCs" >Início / </a><span className="BCs" >Listar Produtos</span>
+        <a href="/home"className="BCs" >Início /</a><span className="BCs">Listar Produtos</span>
       </Breadcrumb>
       <ContentWrapper>
         <SideMenu />

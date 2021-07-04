@@ -280,9 +280,10 @@ class ProductsForm extends React.Component {
         {/* Is Perishable */}
         <div className="FormGroup Size100">
           <input type="checkbox" id="perishable" defaultChecked={this.state.perishable ? 'checked' : ''} onChange={this.handlePerishableChange} />
-          <label style={{ display: 'inline-block', marginLeft: 15 }}>Perecível?</label>
+          <label style={{ display: 'inline-block', marginLeft: 15 }}>Perecível</label>
         </div>
 
+        {/* Error Message */}
         {
           this.state.error ?
             <Message color="var(--color-error)">{this.state.message}</Message>

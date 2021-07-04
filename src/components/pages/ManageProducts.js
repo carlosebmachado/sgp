@@ -11,7 +11,7 @@ function ManageProducts() {
     <div className="ManageProducts">
       <Header />
       <Breadcrumb>
-        <a href="/home"className="BCs" >Início / </a><a href="/list"className="BCs" >Listar Produtos / </a><span className="BCs" >Gerenciar Produto</span>
+        <a href="/home"className="BCs">Início /</a><a href="/list"className="BCs">Listar Produtos /</a><span className="BCs">Gerenciar Produto</span>
       </Breadcrumb>
       <ContentWrapper>
         <SideMenu />
