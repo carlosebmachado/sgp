@@ -6,9 +6,11 @@
   flex-basis: 140px;
   flex-grow: 1;
   flex-shrink: 1;
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15); 
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15);
 }
 
-.SideMenu .TitleBg {
+.SideMenu header {
   background-color: var(--color-primary);
   padding: 10px 15px;
   border-top-left-radius: 5px;
@@ -36,6 +38,16 @@
 
 .SideMenu ul li a:hover {
   background-color: #f5f5f5;
+}
+
+.SideMenu footer {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.SideMenu small {
+  color: var(--color-light-gray);
+  font-size: 0.6rem;
 }
 
 @media (max-width: 1200px) {

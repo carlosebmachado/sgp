@@ -17,21 +17,26 @@
   margin-bottom: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.ListProducts .TableWrapper {
+  overflow-x: auto;
 }
 
-tr:hover {
+.ListProducts table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x:auto;
+}
+
+.ListProducts tr:hover {
   background-color: #f5f5f5
 }
 
-td {
+.ListProducts td {
   height: 10px;
   vertical-align: bottom;
 }
 
-th, td {
+.ListProducts th, td {
   border-bottom: 1px solid #ddd;
   padding: 5px;
   text-align: left;

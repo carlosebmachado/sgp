@@ -2,6 +2,7 @@ import React from 'react';
 import Button from './Button';
 import '../styles/PopUp.css';
 
+
 function PopUp(props) {
   return (
     <div className="PopUp">

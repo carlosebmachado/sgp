@@ -13,19 +13,19 @@ class ProductsTable extends React.Component {
 
     this.state = { tableData: DAO.listProducts(), id: '', success: false, error: false, question: false };
 
-    this.deleteProduct = this.deleteProduct.bind(this);
-    this.cancel = this.cancel.bind(this);
-    this.confirm = this.confirm.bind(this);
+    this.handleDeleteProduct = this.handleDeleteProduct.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
   }
 
   // Set id to delete and call delete popup menu.
-  deleteProduct(id) {
+  handleDeleteProduct(id) {
     this.setState({ question: true });
-    this.setState({ id: id});
+    this.setState({ id: id });
   }
 
   // Delete a product from id.
-  confirm() {
+  handleConfirm() {
     DAO.deleteProduct(this.state.id);
     this.setState({ tableData: DAO.listProducts() });
     this.setState({ success: true });
@@ -33,7 +33,7 @@ class ProductsTable extends React.Component {
     this.setState({ question: false });
   }
 
-  cancel() {
+  handleCancel() {
     this.setState({ success: false });
     this.setState({ error: true });
     this.setState({ question: false });
@@ -43,45 +43,53 @@ class ProductsTable extends React.Component {
     return (
       <div className="ListProducts">
         <h2>Listar Produtos</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Un. de Medida</th>
-              <th>Quantidade</th>
-              <th>Preço</th>
-              <th>Perecível?</th>
-              <th>Data de Validade</th>
-              <th>Data de Fabracação</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.tableData.map(p => {
-              return (
-                <tr key={p['id']}>
-                  <td>{p['name']}</td>
-                  <td>{p['unity']}</td>
-                  <td>{p['amount']}</td>
-                  <td>{p['price']}</td>
-                  <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
-                  <td>{p['fabDate']}</td>
-                  <td>{p['expDate']}</td>
-                  <td><Link href={'/manage?id=' + p['id']}>Editar</Link></td>
-                  <td><Button onClick={(event) => this.deleteProduct(event)} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
 
+        <div className="TableWrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Un. de Medida</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
+                <th>Perecível?</th>
+                <th>Data de Validade</th>
+                <th>Data de Fabracação</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.tableData.map(p => {
+                return (
+                  <tr key={p['id']}>
+                    <td>{p['id']}</td>
+                    <td>{p['name']}</td>
+                    <td>{p['unity']}</td>
+                    <td>{p['amount']}</td>
+                    <td>{p['price']}</td>
+                    <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
+                    <td>{p['fabDate']}</td>
+                    <td>{p['expDate']}</td>
+                    <td><Link href={'/manage?id=' + p['id']}>Editar</Link></td>
+                    <td><Button onClick={(event) => this.handleDeleteProduct(event)} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Success Message */}
         {
           this.state.success ?
             <Message>Produto excluído com sucesso.</Message>
             :
             ""
         }
+
+        {/* Failure Message */}
         {
           this.state.error ?
             <Message color="var(--color-error)">Produto não excluído.</Message>
@@ -91,9 +99,10 @@ class ProductsTable extends React.Component {
 
         <Link href="/manage">Adicionar Produto</Link>
 
+        {/* Question Box */}
         {
           this.state.question ?
-            <PopUp title="Aviso" message="Você tem certeza que deseja excluir o item?" cancel={this.cancel} confirm={this.confirm}></PopUp>
+            <PopUp title="Aviso" message="Você tem certeza que deseja excluir o item?" cancel={this.handleCancel} confirm={this.handleConfirm}></PopUp>
             :
             ""
         }

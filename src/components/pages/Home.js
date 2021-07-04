@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../Header';
 import '../../styles/Home.css';
 
+
 function Home() {
   return (
     <div className="Home">

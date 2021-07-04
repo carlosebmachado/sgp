@@ -1,6 +1,6 @@
 class Mask {
 
-  // Apply globam pattern date mask to a string.
+  // Apply global date pattern mask to a pt-br date (string).
   static dateToGlobal(param) {
     var d = param.split("/")[0];
     var m = param.split("/")[1];
@@ -12,10 +12,7 @@ class Mask {
   // Apply a lenght limit to a string.
   static limitMask(param, limit) {
     var value = String(param);
-
-    if (value.length > limit) return value.substr(0, limit);
-
-    return value;
+    return value.substr(0, limit);
   }
 
   // Apply currency mask to a string.
@@ -40,6 +37,7 @@ class Mask {
     var del = value.length < 10;
 
     temp = this.removeNonNumeric(value);
+    // if there are more than eigth numbers, it reach at limit
     if (temp.length > 8) return value.substr(0, 10);
     value = temp;
 
@@ -48,7 +46,7 @@ class Mask {
     }
 
     // normalize
-    value = this.completeLeftWithChar(value, '_', 8, true);
+    value = this.completeWithChar(value, '_', 8, true);
 
     // add slashes
     value = value.substr(0, 2) + '/' + value.substr(2, 2) + '/' + value.substr(4, 4);
@@ -110,8 +108,10 @@ class Mask {
       value = value.substring(0, value.length - 1);
     }
 
+    // put zero if nothing
     if (value === '') value = '0';
 
+    // adds unit character
     value += ' un';
 
     return value;
@@ -137,14 +137,14 @@ class Mask {
   }
 
   static completeLeftWithZeros(value, n) {
-    value = this.completeLeftWithChar(value, '0', n);
+    value = this.completeWithChar(value, '0', n);
     return value;
   }
 
-  static completeLeftWithChar(value, c, n, rev = false) {
+  static completeWithChar(value, c, n, right = false) {
     var s = value.length;
     for (var i = 0; i < n - s; ++i) {
-      if (rev)
+      if (right)
         value = value + c;
       else
         value = c + value;

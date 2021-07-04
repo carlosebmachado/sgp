@@ -52,9 +52,9 @@ class ProductsForm extends React.Component {
     this.handleFabDateChange = this.handleFabDateChange.bind(this);
     this.handleExpDateChange = this.handleExpDateChange.bind(this);
     this.handlePerishableChange = this.handlePerishableChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.clear = this.clear.bind(this);
     this.getActivityName = this.getActivityName.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.setMandatory = this.setMandatory.bind(this);
     this.setError = this.setError.bind(this);
   }
@@ -185,6 +185,7 @@ class ProductsForm extends React.Component {
     event.preventDefault();
   }
 
+  // Set Mandatory class to a id.
   setMandatory(id, value) {
     var expDateInput = document.querySelector(id);
     if (value)
@@ -193,6 +194,7 @@ class ProductsForm extends React.Component {
       expDateInput.setAttribute('class', '');
   }
 
+  // Set Error class to a id.
   setError(id, value) {
     var expDateInput = document.querySelector(id);
     if (value)
@@ -221,11 +223,6 @@ class ProductsForm extends React.Component {
   // Get page title.
   getActivityName() {
     return this.state.id !== '' ? 'Editar' : 'Cadastrar';
-  }
-
-  // Cancel insert/update and returns to list products.
-  cancel(param) {
-    this.props.onClick(param);
   }
 
   render() {
@@ -298,5 +295,4 @@ class ProductsForm extends React.Component {
   }
 }
 
-// export default NewProduct;
 export default ProductsForm;

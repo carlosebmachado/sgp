@@ -29,9 +29,8 @@ class DAO {
   static listProducts() {
     var values = [];
     var keys = Object.keys(localStorage);
-    var i = keys.length;
 
-    while (i--) {
+    for (var i = 0; i < keys.length; ++i) {
       values.push(JSON.parse(localStorage.getItem(keys[i])));
     }
 

@@ -1,17 +1,20 @@
 import React from 'react';
 import '../styles/SideMenu.css';
 
-function SideMenu(props) {
+function SideMenu() {
 
   return (
     <nav className="SideMenu">
-      <div className="TitleBg">
+      <header className="TitleBg">
         <h3>Menu</h3>
-      </div>
+      </header>
       <ul>
         <li><a href="/list">Listar produtos</a></li>
         <li><a href="/manage">Cadastrar produto</a></li>
       </ul>
+      <footer>
+        <small>By Carlos Machado</small>
+      </footer>
     </nav>
   );
 }
