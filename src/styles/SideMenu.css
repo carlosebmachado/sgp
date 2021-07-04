@@ -2,8 +2,8 @@
   background-color: var(--color-light-background);
   margin: 15px 0 0 0;
   border-radius: 5px;
-  min-width: 200px;
-  flex-basis: 140px;
+  min-width: 185px;
+  flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
   -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15); 
@@ -50,7 +50,7 @@
   font-size: 0.6rem;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1040px) {
   .SideMenu {
     text-align: center;
   }

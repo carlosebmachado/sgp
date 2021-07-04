@@ -17,3 +17,9 @@
   text-decoration: none;
   font-size: 1.6rem;
 }
+
+@media (max-width: 1040px) {
+  .Content {
+    text-align: center;
+  }
+}

@@ -8,7 +8,7 @@
   flex-wrap: wrap;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1040px) {
   .ContentWrapper {
     width: 100%;
   }
