@@ -1,0 +1,19 @@
+.Breadcrumb {
+  width: 1280px;
+  max-width: 100%;
+  padding: 0 20px;
+  margin: 20px auto 0 auto;
+}
+
+.Breadcrumb > a.BCs {
+  display: inline-block;
+  margin-bottom: 0;
+  color: var(--color-dark-gray);
+  font-weight: lighter;
+  text-decoration: none;
+}
+
+.Breadcrumb > span.BCs {
+  color: var(--color-light-gray);
+  font-weight: lighter;
+}

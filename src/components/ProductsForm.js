@@ -1,7 +1,7 @@
 import React from 'react';
 import DAO from './scripts/DAO';
 import Mask from './scripts/Mask';
-import Button from './Button';
+import Link from './Link';
 import Message from './Message';
 import moment from 'moment';
 import '../styles/ProductsForm.css';
@@ -291,7 +291,7 @@ class ProductsForm extends React.Component {
         }
 
         <input type="submit" value="Salvar" />
-        <Button color="var(--color-danger)" onClick={(event) => this.cancel(event)} param={0}>Cancelar</Button>
+        <Link href="/list" color="var(--color-danger)">Cancelar</Link>
       </form>
     );
   }

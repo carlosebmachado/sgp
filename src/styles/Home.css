@@ -11,6 +11,7 @@
   width: 100%;
   background-color: var(--color-light-background);
   margin: auto;
+  text-align: justify;
   border-radius: 5px;
   padding: 20px 30px;
 }

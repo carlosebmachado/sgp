@@ -9,7 +9,7 @@
   margin-bottom: 15px;
 }
 
-.ProductsForm>.Button, .ProductsForm>input[type=submit] {
+.ProductsForm>.Link, .ProductsForm>input[type=submit] {
   float: right;
   margin: 0px 0 10px 0;
   margin-left: 10px;

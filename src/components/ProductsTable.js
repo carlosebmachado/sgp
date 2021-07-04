@@ -13,21 +13,9 @@ class ProductsTable extends React.Component {
 
     this.state = { tableData: DAO.listProducts(), id: '', success: false, error: false, question: false };
 
-    this.editProduct = this.editProduct.bind(this);
-    this.addProduct = this.addProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
     this.cancel = this.cancel.bind(this);
     this.confirm = this.confirm.bind(this);
-  }
-
-  // Go to product page recovering the product from id.
-  editProduct(id) {
-    this.props.onClick(1, id);
-  }
-
-  // Go to product page to add a new product.
-  addProduct(param) {
-    this.props.onClick(1, '');
   }
 
   // Set id to delete and call delete popup menu.
@@ -101,7 +89,7 @@ class ProductsTable extends React.Component {
             ""
         }
 
-        <Button onClick={this.addProduct}>Adicionar Produto</Button>
+        <Link href="/manage">Adicionar Produto</Link>
 
         {
           this.state.question ?

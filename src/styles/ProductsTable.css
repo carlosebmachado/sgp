@@ -4,12 +4,12 @@
   color: var(--color-dark-gray);
 }
 
-.ListProducts>.Button {
+.ListProducts>.Link {
   float: right;
   margin: 40px 0 10px 0;
 }
 
-.ListProducts>.Message {
+.ListProducts .Message {
   margin: 20px 0 0 0;
 }
 

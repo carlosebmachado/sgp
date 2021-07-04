@@ -37,13 +37,18 @@ class Mask {
   static dateMask(param) {
     var value = String(param);
     var temp = String();
+    var del = value.length < 10;
 
     temp = this.removeNonNumeric(value);
     if (temp.length > 8) return value.substr(0, 10);
     value = temp;
 
+    if (del) {
+      value = value.substring(0, value.length - 1);
+    }
+
     // normalize
-    value = this.completeLeftWithChar(value, '_', 8);
+    value = this.completeLeftWithChar(value, '_', 8, true);
 
     // add slashes
     value = value.substr(0, 2) + '/' + value.substr(2, 2) + '/' + value.substr(4, 4);
@@ -114,8 +119,9 @@ class Mask {
 
   static removeNonLetter(value) {
     var temp = String();
+    var validChars = String('áàâãéèêíìóòôúùçÁÀÂÃÉÈÊÉÈÓÒÔÚÙÇ');
     for (var i = 0; i < value.length; ++i) {
-      if ((value[i] >= 'a' && value[i] <= 'z') || (value[i] >= 'A' && value[i] <= 'Z') || value[i] === ' ')
+      if ((value[i] >= 'a' && value[i] <= 'z') || (value[i] >= 'A' && value[i] <= 'Z') || value[i] === ' ' || validChars.includes(value[i]))
         temp += value[i];
     }
     return temp;
@@ -135,10 +141,13 @@ class Mask {
     return value;
   }
 
-  static completeLeftWithChar(value, c, n) {
+  static completeLeftWithChar(value, c, n, rev = false) {
     var s = value.length;
     for (var i = 0; i < n - s; ++i) {
-      value = c + value;
+      if (rev)
+        value = value + c;
+      else
+        value = c + value;
     }
     return value;
   }

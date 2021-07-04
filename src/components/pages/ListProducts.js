@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Header';
+import Breadcrumb from '../Breadcrumb';
 import ContentWrapper from '../ContentWrapper';
 import SideMenu from '../SideMenu';
 import Tab from '../Tab';
@@ -9,6 +10,9 @@ function ListProducts() {
   return (
     <div className="ListProducts">
       <Header />
+      <Breadcrumb>
+        <a href="/home"className="BCs" >Início / </a><span className="BCs" >Listar Produtos</span>
+      </Breadcrumb>
       <ContentWrapper>
         <SideMenu />
         <Tab>
