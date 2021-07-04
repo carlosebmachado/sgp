@@ -1,18 +1,22 @@
 import React from 'react';
-import DAO from '../../scripts/DAO';
-import Mask from '../../scripts/Mask';
-import Button from '../../Button';
-import Message from '../../Message';
+import DAO from './scripts/DAO';
+import Mask from './scripts/Mask';
+import Button from './Button';
+import Message from './Message';
 import moment from 'moment';
-import '../../../styles/ProductsForm.css';
+import '../styles/ProductsForm.css';
 
 
 class ProductsForm extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props.id !== '') {
-      var editProduct = DAO.selectProduct(props.id);
+    var url = new URL(window.location.href);
+    var id = url.searchParams.get('id');
+
+    if (id != null && DAO.existsProduct(id)) {
+      var editProduct = DAO.selectProduct(id);
+
       this.state = {
         id: editProduct['id'],
         name: editProduct['name'],
@@ -22,10 +26,22 @@ class ProductsForm extends React.Component {
         fabDate: editProduct['fabDate'],
         expDate: editProduct['expDate'],
         perishable: editProduct['perishable'],
-        error: false
+        error: false,
+        message: 'Por favor, preencha todos os campos.'
       };
     } else {
-      this.state = { id: '', name: '', unity: 'none', amount: '', price: 'R$ 0,00', fabDate: '__/__/____', expDate: '__/__/____', perishable: false, error: false, message: 'Por favor, preencha todos os campos.' };
+      this.state = {
+        id: '',
+        name: '',
+        unity: 'none',
+        amount: '',
+        price: 'R$ 0,00',
+        fabDate: '__/__/____',
+        expDate: '__/__/____',
+        perishable: false,
+        error: false,
+        message: 'Por favor, preencha todos os campos.'
+      };
     }
 
     this.handleIdChange = this.handleIdChange.bind(this);
@@ -119,19 +135,19 @@ class ProductsForm extends React.Component {
       someError = true;
     }
     if (this.state.perishable) {
-      if(Date.parse(Mask.dateToGlobal(this.state.fabDate)) > Date.parse(Mask.dateToGlobal(this.state.expDate))){
+      if (Date.parse(Mask.dateToGlobal(this.state.fabDate)) > Date.parse(Mask.dateToGlobal(this.state.expDate))) {
         this.setError('#fabDate', true);
         this.setError('#expDate', true);
         this.setState({ message: 'A data de fabricação não pode ser maior que a data de validade.' })
         someError = true;
-     }
+      }
     }
-    if(this.state.perishable && Date.parse(Date()) > Date.parse(Mask.dateToGlobal(this.state.expDate))){
+    if (this.state.perishable && Date.parse(Date()) > Date.parse(Mask.dateToGlobal(this.state.expDate))) {
       this.setError('#expDate', true);
       this.setState({ message: 'O produto está vencido.' })
       someError = true;
-   }
-    
+    }
+
     if (someError) {
       this.setState({ error: true });
       event.preventDefault();
@@ -149,7 +165,7 @@ class ProductsForm extends React.Component {
     product['fabDate'] = this.state.fabDate;
     product['expDate'] = this.state.expDate;
     product['perishable'] = this.state.perishable;
-    
+
     // remove date mask if the product is perishable
     if (!this.state.perishable) {
       product['expDate'] = '';

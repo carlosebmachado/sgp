@@ -1,12 +1,13 @@
 import React from 'react';
-import Button from '../../Button';
-import Message from '../../Message';
-import PopUp from '../../Popup';
-import DAO from '../../scripts/DAO';
-import '../../../styles/ListProducts.css';
+import Button from './Button';
+import Link from './Link';
+import Message from './Message';
+import PopUp from './Popup';
+import DAO from './scripts/DAO';
+import '../styles/ProductsTable.css';
 
 
-class ListProducts extends React.Component {
+class ProductsTable extends React.Component {
   constructor(props) {
     super(props);
 
@@ -79,7 +80,7 @@ class ListProducts extends React.Component {
                   <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
                   <td>{p['fabDate']}</td>
                   <td>{p['expDate']}</td>
-                  <td><Button onClick={(event) => this.editProduct(event)} param={p['id']}>Editar</Button></td>
+                  <td><Link href={'/manage?id=' + p['id']}>Editar</Link></td>
                   <td><Button onClick={(event) => this.deleteProduct(event)} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
                 </tr>
               );
@@ -113,4 +114,4 @@ class ListProducts extends React.Component {
   }
 }
 
-export default ListProducts;
+export default ProductsTable;

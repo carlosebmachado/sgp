@@ -20,6 +20,11 @@ class DAO {
     return JSON.parse(localStorage.getItem(id));
   }
 
+  // Verify if exists the product from id in localStorage.
+  static existsProduct(id) {
+    return this.selectProduct(id) !== null;
+  }
+
   // List all products from localStorage.
   static listProducts() {
     var values = [];
