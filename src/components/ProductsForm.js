@@ -14,9 +14,10 @@ class ProductsForm extends React.Component {
     var url = new URL(window.location.href);
     var id = url.searchParams.get('id');
 
+    // se o id foi passado e existe no lcoalStorage
+    // então estamos editando
     if (id != null && DAO.existsProduct(id)) {
       var editProduct = DAO.selectProduct(id);
-
       this.state = {
         id: editProduct['id'],
         name: editProduct['name'],
@@ -30,6 +31,7 @@ class ProductsForm extends React.Component {
         message: 'Por favor, preencha todos os campos.'
       };
     } else {
+      // senão estamos adicionando
       this.state = {
         id: '',
         name: '',
@@ -53,7 +55,6 @@ class ProductsForm extends React.Component {
     this.handleExpDateChange = this.handleExpDateChange.bind(this);
     this.handlePerishableChange = this.handlePerishableChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.clear = this.clear.bind(this);
     this.getActivityName = this.getActivityName.bind(this);
     this.setMandatory = this.setMandatory.bind(this);
     this.setError = this.setError.bind(this);
@@ -64,6 +65,7 @@ class ProductsForm extends React.Component {
   }
 
   handleNameChange(event) {
+    // aplica o limite de caracteres e a obrigatoriedade de letras
     var value = Mask.removeNonLetter(event.target.value);
     value = Mask.limitMask(value, 50);
     this.setState({ name: value });
@@ -75,6 +77,7 @@ class ProductsForm extends React.Component {
 
   handleAmountChange(event) {
     var value = '';
+    // só gerencia as máscaras se alguma unidade tiver sido selecionada
     if (this.state.unity === 'Litro') {
       value = Mask.literMask(event.target.value);
     } else if (this.state.unity === 'Quilograma') {
@@ -86,54 +89,66 @@ class ProductsForm extends React.Component {
   }
 
   handlePriceChange(event) {
+    // aplica a máscara monetária
     var value = Mask.currencyMask(event.target.value);
     this.setState({ price: value });
   }
 
   handleFabDateChange(event) {
+    // aplica a máscara de data
     var value = Mask.dateMask(event.target.value);
     this.setState({ fabDate: value });
   }
 
   handleExpDateChange(event) {
+    // aplica a máscara de data
     var value = Mask.dateMask(event.target.value);
     this.setState({ expDate: value });
   }
 
   handlePerishableChange(event) {
+    // gerencia o aviso de obrigatoriedade da data de validade
     this.setMandatory('#expDate', event.target.checked);
     this.setState({ perishable: event.target.checked });
   }
 
-  // Save or update the new product.
+  // Salva ou Atualiza um produto.
   handleSubmit(event) {
     var someError = false;
 
+    // vai gerar erro:
+
+    // se o nome for vazio
     if (this.state.name === '') {
       this.setError('#name', true);
       this.setState({ message: 'Por favor, preencha todos os campos.' })
       someError = true;
     }
+    // se a unidade de medida não tiver sido selecionada
     if (this.state.unity === 'none') {
       this.setError('#unity', true);
       this.setState({ message: 'Por favor, preencha todos os campos.' })
       someError = true;
     }
+    // se o preço estiver vazio
     if (this.state.price === 'R$ 0,00') {
       this.setError('#price', true);
       this.setState({ message: 'Por favor, preencha todos os campos.' })
       someError = true;
     }
+    // se a data de fabricação for inválida
     if (!moment(this.state.fabDate, 'DD/MM/YYYY').isValid()) {
       this.setError('#fabDate', true);
-      this.setState({ message: 'Por favor, preencha todos os campos.' })
+      this.setState({ message: 'Data inválida.' })
       someError = true;
     }
+    // se for perecível e a data de fabricação for inválida
     if (this.state.perishable && !moment(this.state.expDate, 'DD/MM/YYYY').isValid()) {
       this.setError('#expDate', true);
       this.setState({ message: 'Por favor, preencha todos os campos.' })
       someError = true;
     }
+    // se for perecível e data de fabricação for maior que a data de validade
     if (this.state.perishable) {
       if (Date.parse(Mask.dateToGlobal(this.state.fabDate)) > Date.parse(Mask.dateToGlobal(this.state.expDate))) {
         this.setError('#fabDate', true);
@@ -142,12 +157,14 @@ class ProductsForm extends React.Component {
         someError = true;
       }
     }
+    // se a data de validade for menor que a data atual
     if (this.state.perishable && Date.parse(Date()) > Date.parse(Mask.dateToGlobal(this.state.expDate))) {
       this.setError('#expDate', true);
       this.setState({ message: 'O produto está vencido.' })
       someError = true;
     }
 
+    // se houver algum erro o produto não é inserido
     if (someError) {
       this.setState({ error: true });
       event.preventDefault();
@@ -156,7 +173,7 @@ class ProductsForm extends React.Component {
       this.setState({ error: false });
     }
 
-    // create the product json
+    // cria o produto 'json'
     var product = {};
     product['name'] = this.state.name;
     product['unity'] = this.state.unity;
@@ -166,26 +183,23 @@ class ProductsForm extends React.Component {
     product['expDate'] = this.state.expDate;
     product['perishable'] = this.state.perishable;
 
-    // remove date mask if the product is perishable
+    // se o produto não for perecível a máscara vazia é removida
     if (!this.state.perishable) {
       product['expDate'] = '';
     }
 
+    // se o id não é vazio, então o produto é editado
     if (this.state.id !== '') {
-      // if id is not empty, it'll update
       product['id'] = this.state.id;
       DAO.updateProduct(product);
     } else {
-      // if id is empty, it'll add as new product
+      // senão um novo produto é adicionado
       product['id'] = DAO.countProducts();
       DAO.insertProduct(product);
     }
-
-    this.clear();
-    event.preventDefault();
   }
 
-  // Set Mandatory class to a id.
+  // Aplica a classe Mandatory para o id passado.
   setMandatory(id, value) {
     var expDateInput = document.querySelector(id);
     if (value)
@@ -194,7 +208,7 @@ class ProductsForm extends React.Component {
       expDateInput.setAttribute('class', '');
   }
 
-  // Set Error class to a id.
+  // Aplica a classe Error para o id passado.
   setError(id, value) {
     var expDateInput = document.querySelector(id);
     if (value)
@@ -203,24 +217,7 @@ class ProductsForm extends React.Component {
       expDateInput.setAttribute('class', '');
   }
 
-  // Set all values to default.
-  clear() {
-    this.setState({ id: '' });
-    this.setState({ name: '' });
-    this.setState({ unity: 'none' });
-    this.setState({ amount: '' });
-    this.setState({ price: 'R$ 0,00' });
-    this.setState({ fabDate: '__/__/____' });
-    this.setState({ expDate: '__/__/____' });
-    this.setState({ perishable: false });
-    this.setMandatory('#name', true);
-    this.setMandatory('#unity', true);
-    this.setMandatory('#price', true);
-    this.setMandatory('#fabDate', true);
-    this.setMandatory('#expDate', false);
-  }
-
-  // Get page title.
+  // Pega o título da página.
   getActivityName() {
     return this.state.id !== '' ? 'Editar' : 'Cadastrar';
   }
@@ -288,6 +285,7 @@ class ProductsForm extends React.Component {
             ""
         }
 
+        {/* botões de salvar e cancelar */}
         <input type="submit" value="Salvar" />
         <Link href="/list" color="var(--color-danger)">Cancelar</Link>
       </form>

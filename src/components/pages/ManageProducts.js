@@ -17,6 +17,7 @@ function ManageProducts() {
       <ContentWrapper>
         <SideMenu />
         <Tab>
+          {/* conteúdo principal */}
           <ProductsForm />
         </Tab>
       </ContentWrapper>

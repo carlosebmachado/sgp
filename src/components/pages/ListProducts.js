@@ -17,6 +17,7 @@ function ListProducts() {
       <ContentWrapper>
         <SideMenu />
         <Tab>
+          {/* conteúdo principal */}
           <ProductsTable />
         </Tab>
       </ContentWrapper>

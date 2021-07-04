@@ -1,31 +1,31 @@
 class DAO {
 
-  // Insert a product in localStorage.
+  // Adiciona um produto no localStorage.
   static insertProduct(product) {
     localStorage.setItem(product['id'], JSON.stringify(product));
   }
 
-  // Update a product in localStorage.
+  // Atualiza um produto no localStorage.
   static updateProduct(product) {
     this.insertProduct(product);
   }
 
-  // Delete a product from localStorage.
+  // Deleta um produto do localStorage.
   static deleteProduct(id) {
     localStorage.removeItem(id);
   }
 
-  // Select a product from localStorage.
+  // Seleciona um produto do localStorage.
   static selectProduct(id) {
     return JSON.parse(localStorage.getItem(id));
   }
 
-  // Verify if exists the product from id in localStorage.
+  // Verifica se um produto existe no localStorage.
   static existsProduct(id) {
     return this.selectProduct(id) !== null;
   }
 
-  // List all products from localStorage.
+  // Lista todos os produtos do localStorage.
   static listProducts() {
     var values = [];
     var keys = Object.keys(localStorage);
@@ -37,7 +37,7 @@ class DAO {
     return values;
   }
 
-  // Count all products in localStorage.
+  // Conta todos os produtos do localStorage.
   static countProducts() {
     return Object.keys(localStorage).length;
   }

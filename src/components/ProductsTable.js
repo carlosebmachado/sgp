@@ -14,17 +14,17 @@ class ProductsTable extends React.Component {
     this.state = { tableData: DAO.listProducts(), id: '', success: false, error: false, question: false };
 
     this.handleDeleteProduct = this.handleDeleteProduct.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  // Set id to delete and call delete popup menu.
+  // Aplica o id a ser deletado no state e achama o popup de exclusão.
   handleDeleteProduct(id) {
     this.setState({ question: true });
     this.setState({ id: id });
   }
 
-  // Delete a product from id.
+  // Deleta o produto do id contido no state.
   handleConfirm() {
     DAO.deleteProduct(this.state.id);
     this.setState({ tableData: DAO.listProducts() });
@@ -33,6 +33,7 @@ class ProductsTable extends React.Component {
     this.setState({ question: false });
   }
 
+  // Cancela a exclusão.
   handleCancel() {
     this.setState({ success: false });
     this.setState({ error: true });
@@ -44,6 +45,7 @@ class ProductsTable extends React.Component {
       <div className="ListProducts">
         <h2>Listar Produtos</h2>
 
+        {/* Table */}
         <div className="TableWrapper">
           <table>
             <thead>

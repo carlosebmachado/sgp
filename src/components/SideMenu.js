@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/SideMenu.css';
 
-function SideMenu() {
 
+function SideMenu() {
   return (
     <nav className="SideMenu">
       <header className="TitleBg">

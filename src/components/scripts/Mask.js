@@ -1,21 +1,22 @@
 class Mask {
 
-  // Apply global date pattern mask to a pt-br date (string).
+  // Trasnforma uma string de data pt-br para internacional.
   static dateToGlobal(param) {
-    var d = param.split("/")[0];
-    var m = param.split("/")[1];
-    var y = param.split("/")[2];
+    var sDate = param.split("/");
+    var d = sDate[0];
+    var m = sDate[1];
+    var y = sDate[2];
 
     return y + '-' + ("0" + m).slice(-2) + '-' + ("0" + d).slice(-2);
   }
 
-  // Apply a lenght limit to a string.
+  // Aplica um limite de caracteres em uma string.
   static limitMask(param, limit) {
     var value = String(param);
     return value.substr(0, limit);
   }
 
-  // Apply currency mask to a string.
+  // Aplica uma máscara monetária para uma string.
   static currencyMask(param) {
     var value = String(param);
 
@@ -23,21 +24,21 @@ class Mask {
     value = this.removeLeftZeros(value);
     value = this.completeLeftWithZeros(value, 3);
 
-    // adds the comma and money character
+    // adiciona a vírgula e o símbolo de real
     value = value.substr(0, value.length - 2) + ',' + value.substr(value.length - 2, 2);
     value = 'R$ ' + value;
 
     return value;
   }
 
-  // Apply date mask to a string.
+  // Aplica uma máscara de data para uma string.
   static dateMask(param) {
     var value = String(param);
     var temp = String();
     var del = value.length < 10;
 
     temp = this.removeNonNumeric(value);
-    // if there are more than eigth numbers, it reach at limit
+    // se tem mais de 8 caracteres, então chegou ao limite
     if (temp.length > 8) return value.substr(0, 10);
     value = temp;
 
@@ -45,16 +46,16 @@ class Mask {
       value = value.substring(0, value.length - 1);
     }
 
-    // normalize
+    // normaliza
     value = this.completeWithChar(value, '_', 8, true);
 
-    // add slashes
+    // adiciona as barras
     value = value.substr(0, 2) + '/' + value.substr(2, 2) + '/' + value.substr(4, 4);
 
     return value;
   }
 
-  // Apply liter mask to a string.
+  // Aplica uma máscara de medida de litro para uma string.
   static literMask(param) {
     var value = String(param);
     var del = value[value.length - 2] !== 't' && value[value.length - 1] === 'l';
@@ -68,14 +69,14 @@ class Mask {
 
     value = this.completeLeftWithZeros(value, 4);
 
-    // adds the comma and liter character
+    // adiciona a vírgula e o símbolo de litro
     value = value.substr(0, value.length - 3) + ',' + value.substr(value.length - 3, 3);
     value += ' lt';
 
     return value;
   }
 
-  // Apply kilo mask to a string.
+  // Aplica uma máscara de medida de peso para uma string.
   static kiloMask(param) {
     var value = String(param);
     var del = value[value.length - 2] !== 'g' && value[value.length - 1] === 'k';
@@ -89,14 +90,14 @@ class Mask {
 
     value = this.completeLeftWithZeros(value, 4);
 
-    // adds the comma and kilo character
+    // adiciona a vírgula e o símbolo de quilo
     value = value.substr(0, value.length - 3) + ',' + value.substr(value.length - 3, 3);
     value += ' kg';
 
     return value;
   }
 
-  // Apply unity mask to a string.
+  // Aplica uma máscara de unidade para uma string.
   static unityMask(param) {
     var value = String(param);
     var del = value[value.length - 2] !== 'n' && value[value.length - 1] === 'u';
@@ -108,10 +109,10 @@ class Mask {
       value = value.substring(0, value.length - 1);
     }
 
-    // put zero if nothing
+    // se não tiver valor, um zero é adicionado
     if (value === '') value = '0';
 
-    // adds unit character
+    // adiciona o símbolo de unidade
     value += ' un';
 
     return value;
