@@ -1,7 +1,8 @@
 # Product Management System
 
-### Install command
-- ```npm install```
+Projeto construído utilizando React.js  
+Autor: Carlos Eduardo de Borba Machado
 
-### Run command
-- ```npm start```
+### Instalação e Execução
+- ~$ ```npm install```
+- ~$ ```npm start```
