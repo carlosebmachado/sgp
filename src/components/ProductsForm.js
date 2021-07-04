@@ -210,7 +210,7 @@ class ProductsForm extends React.Component {
     product['expDate'] = Mask.dateToGlobal(product['expDate']);
 
     // se o produto não for perecível a máscara vazia é removida
-    if (!this.state.perishable && product['expDate'] === '__/__/____') {
+    if (product['expDate'] === '____-__-__') {
       product['expDate'] = '';
     }
 
@@ -310,6 +310,8 @@ class ProductsForm extends React.Component {
             :
             ""
         }
+
+        <small className="MandatoryNotice"><div></div> Campos em amarelo são obrigatórios.</small>
 
         {/* botões de salvar e cancelar */}
         <input type="submit" value="Salvar" />

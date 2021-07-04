@@ -2,6 +2,7 @@ class Mask {
 
   // Trasnforma uma string de data pt-br para internacional.
   static dateToGlobal(param) {
+    if (param === '') return param;
     var sDate = param.split('/');
     var d = sDate[0];
     var m = sDate[1];
@@ -11,6 +12,7 @@ class Mask {
 
   // Trasnforma uma string de data pt-br para internacional.
   static dateToPtBr(param) {
+    if (param === '') return param;
     var sDate = param.split('-');
     var y = sDate[0];
     var m = sDate[1];

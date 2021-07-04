@@ -25,6 +25,10 @@
   margin-bottom: 30px;
 }
 
+.ProductsForm .FormGroup:last-of-type {
+  margin-bottom: 15px;
+}
+
 .ProductsForm .Size100 {
   width: 100%;
 }
@@ -78,6 +82,21 @@
 .ProductsForm input[type=text]:focus, .ProductsForm select:focus {
   outline: none;
   background-color: #eee;
+}
+
+.ProductsForm .MandatoryNotice {
+  display: block;
+  color: var(--color-dark-gray);
+  margin-bottom: 30px;
+}
+
+.ProductsForm .MandatoryNotice div {
+  display: inline-block;
+  background-color: rgb(255, 222, 75);
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 3px;
+  border-radius: 50%;
 }
 
 @media (max-width: 1200px) {
