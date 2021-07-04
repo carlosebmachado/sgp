@@ -4,6 +4,7 @@ import Link from './Link';
 import Message from './Message';
 import PopUp from './Popup';
 import DAO from './scripts/DAO';
+import Mask from './scripts/Mask';
 import '../styles/ProductsTable.css';
 
 
@@ -54,7 +55,7 @@ class ProductsTable extends React.Component {
                 <th>Nome</th>
                 <th>Un. de Medida</th>
                 <th>Quantidade</th>
-                <th>Preço</th>
+                <th>Preço R$</th>
                 <th>Perecível?</th>
                 <th>Data de Validade</th>
                 <th>Data de Fabracação</th>
@@ -69,11 +70,17 @@ class ProductsTable extends React.Component {
                     <td>{p['id']}</td>
                     <td>{p['name']}</td>
                     <td>{p['unity']}</td>
-                    <td>{p['amount']}</td>
-                    <td>{p['price']}</td>
+                    <td>{
+                      p['unity'] === 'Litro' ?
+                        String(p['amount']).replace('.', ',') + ' lt' :
+                        p['unity'] === 'Quilograma' ?
+                          String(p['amount']).replace('.', ',') + ' kg' :
+                          String(p['amount']) + ' un'
+                    }</td>
+                    <td>{Mask.normalizeCurrency(p['price'])}</td>
                     <td>{p['perishable'] ? 'Sim' : 'Não'}</td>
-                    <td>{p['fabDate']}</td>
-                    <td>{p['expDate']}</td>
+                    <td>{Mask.dateToPtBr(p['fabDate'])}</td>
+                    <td>{Mask.dateToPtBr(p['expDate'])}</td>
                     <td><Link href={'/manage?id=' + p['id']}>Editar</Link></td>
                     <td><Button onClick={(event) => this.handleDeleteProduct(event)} param={p['id']} color="var(--color-danger)">Excluir</Button></td>
                   </tr>

@@ -2,12 +2,20 @@ class Mask {
 
   // Trasnforma uma string de data pt-br para internacional.
   static dateToGlobal(param) {
-    var sDate = param.split("/");
+    var sDate = param.split('/');
     var d = sDate[0];
     var m = sDate[1];
     var y = sDate[2];
+    return y + '-' + m + '-' + d;
+  }
 
-    return y + '-' + ("0" + m).slice(-2) + '-' + ("0" + d).slice(-2);
+  // Trasnforma uma string de data pt-br para internacional.
+  static dateToPtBr(param) {
+    var sDate = param.split('-');
+    var y = sDate[0];
+    var m = sDate[1];
+    var d = sDate[2];
+    return d + '/' + m + '/' + y;
   }
 
   // Aplica um limite de caracteres em uma string.
@@ -118,6 +126,53 @@ class Mask {
     return value;
   }
 
+  // Remove a máscara de litro.
+  static removeLiterMask(param) {
+    var value = String(param);
+    value = this.removeNonNumeric(value);
+    value = this.removeLeftZeros(value);
+    value = this.completeLeftWithZeros(value, 4);
+    value = value.substr(0, value.length - 3) + '.' + value.substr(value.length - 3, 3);
+    return value;
+  }
+
+  // Remove a máscara de quilograma.
+  static removeKiloMask(param) {
+    return this.removeLiterMask(param);
+  }
+
+  // Remove a máscara de unidade.
+  static removeUnityMask(param) {
+    var value = String(param);
+    value = this.removeNonNumeric(value);
+    value = this.removeLeftZeros(value);
+    return value;
+  }
+
+  // Remove a máscara monetária.
+  static removeCurrencyMask(param) {
+    var value = String(param);
+    value = this.removeNonNumeric(value);
+    value = this.removeLeftZeros(value);
+    value = this.completeLeftWithZeros(value, 3);
+    value = value.substr(0, value.length - 2) + '.' + value.substr(value.length - 2, 2);
+    return value;
+  }
+
+  // Normaliza valor float para monetário.
+  static normalizeCurrency(param) {
+    var value = String(param);
+    if (!value.includes('.')) {
+      return value += ',00';
+    }
+    value = value.replace('.', ',');
+    if (value.split(',')[1].length === 1) {
+      value += '0';
+    }
+    return value;
+  }
+
+  // Remove não letras de uma string.
   static removeNonLetter(value) {
     var temp = String();
     var validChars = String('áàâãéèêíìóòôúùçÁÀÂÃÉÈÊÉÈÓÒÔÚÙÇ');
@@ -128,6 +183,7 @@ class Mask {
     return temp;
   }
 
+  // Remove não numéricos de uma string.
   static removeNonNumeric(value) {
     var temp = String();
     for (var i = 0; i < value.length; ++i) {
@@ -137,11 +193,13 @@ class Mask {
     return temp;
   }
 
+  // Completa uma string com (n - tamanho) zeros.
   static completeLeftWithZeros(value, n) {
     value = this.completeWithChar(value, '0', n);
     return value;
   }
 
+  // Completa uma string com (n - tamanho) -> (caractere passado).
   static completeWithChar(value, c, n, right = false) {
     var s = value.length;
     for (var i = 0; i < n - s; ++i) {
@@ -153,6 +211,7 @@ class Mask {
     return value;
   }
 
+  // Remove zeros da esquerda.
   static removeLeftZeros(value) {
     while (value.startsWith('0')) {
       value = value.substring(1, value.length);

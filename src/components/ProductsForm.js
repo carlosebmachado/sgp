@@ -18,6 +18,20 @@ class ProductsForm extends React.Component {
     // então estamos editando
     if (id != null && DAO.existsProduct(id)) {
       var editProduct = DAO.selectProduct(id);
+
+      // aplica as máscaras
+      if (editProduct['unity'] === 'Litro') {
+        editProduct['amount'] = String(editProduct['amount']).replace('.', ',') + ' lt';
+      } else if (editProduct['unity'] === 'Quilograma') {
+        editProduct['amount'] = String(editProduct['amount']).replace('.', ',') + ' kg';
+      } else {
+        editProduct['amount'] = String(editProduct['amount']) + ' un';
+      }
+      editProduct['price'] = Mask.currencyMask(Mask.normalizeCurrency(editProduct['price']));
+      editProduct['fabDate'] = Mask.dateToPtBr(editProduct['fabDate']);
+      if (editProduct['expDate'] !== '')
+        editProduct['expDate'] = Mask.dateToPtBr(editProduct['expDate']);
+
       this.state = {
         id: editProduct['id'],
         name: editProduct['name'],
@@ -183,8 +197,20 @@ class ProductsForm extends React.Component {
     product['expDate'] = this.state.expDate;
     product['perishable'] = this.state.perishable;
 
+    // converte os dados
+    if (product['unity'] === 'Litro') {
+      product['amount'] = parseFloat(Mask.removeLiterMask(product['amount']));
+    } else if (product['unity'] === 'Quilograma') {
+      product['amount'] = parseFloat(Mask.removeKiloMask(product['amount']));
+    } else {
+      product['amount'] = parseInt(Mask.removeUnityMask(product['amount']), 10);
+    }
+    product['price'] = parseFloat(Mask.removeCurrencyMask(product['price']));
+    product['fabDate'] = Mask.dateToGlobal(product['fabDate']);
+    product['expDate'] = Mask.dateToGlobal(product['expDate']);
+
     // se o produto não for perecível a máscara vazia é removida
-    if (!this.state.perishable) {
+    if (!this.state.perishable && product['expDate'] === '__/__/____') {
       product['expDate'] = '';
     }
 
