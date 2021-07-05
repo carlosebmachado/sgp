@@ -1,4 +1,4 @@
-# Product Management System
+# Sistema Gerenciador de Produtos
 
 Projeto construído utilizando React.js  
 Autor: Carlos Eduardo de Borba Machado

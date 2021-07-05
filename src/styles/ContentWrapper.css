@@ -7,9 +7,3 @@
   align-items: stretch;
   flex-wrap: wrap;
 }
-
-@media (max-width: 1040px) {
-  .ContentWrapper {
-    width: 100%;
-  }
-}
