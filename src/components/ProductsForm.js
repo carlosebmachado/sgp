@@ -213,7 +213,8 @@ class ProductsForm extends React.Component {
     } else if (product['unity'] === 'Quilograma') {
       product['amount'] = parseFloat(Mask.removeKiloMask(product['amount']));
     } else {
-      product['amount'] = parseInt(Mask.removeUnityMask(product['amount']), 10);
+      var amount = Mask.removeUnityMask(product['amount']);
+      product['amount'] = parseInt(amount !== '' ? amount : '0', 10);
     }
     product['price'] = parseFloat(Mask.removeCurrencyMask(product['price']));
     product['fabDate'] = Mask.dateToGlobal(product['fabDate']);
