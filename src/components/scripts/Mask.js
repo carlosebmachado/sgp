@@ -161,16 +161,6 @@ class Mask {
     return value;
   }
 
-  // Remove a máscara monetária.
-  static removeCurrencyMask(param) {
-    var value = String(param);
-    value = this.removeNonNumeric(value);
-    value = this.removeLeftZeros(value);
-    value = this.completeLeftWithZeros(value, 3);
-    value = value.substr(0, value.length - 2) + '.' + value.substr(value.length - 2, 2);
-    return value;
-  }
-
   // Normaliza valor float para 3 casas decimais.
   static normalizeMeas(param) {
     var value = String(param);
