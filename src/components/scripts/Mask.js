@@ -161,13 +161,52 @@ class Mask {
     return value;
   }
 
+  // Remove a máscara monetária.
+  static removeCurrencyMask(param) {
+    var value = String(param);
+    value = this.removeNonNumeric(value);
+    value = this.removeLeftZeros(value);
+    value = this.completeLeftWithZeros(value, 3);
+    value = value.substr(0, value.length - 2) + '.' + value.substr(value.length - 2, 2);
+    return value;
+  }
+
+  // Normaliza valor float para 3 casas decimais.
+  static normalizeMeas(param) {
+    var value = String(param);
+    value = value.replace('.', ',');
+    // se não há vírgula, completa a máscara
+    if (!value.includes(',')) {
+      return value += ',000';
+    } else if (value.split(',')[1].length === 2) {
+      // se já existem 2 caracteres após a vírgula, adiciona apenas 1 zero
+      value += '0';
+    } else if (value.split(',')[1].length === 1) {
+      // se existe apenas 1 caractere após a vírgula, adiciona 2 zeros
+      value += '00';
+    }
+    return value;
+  }
+
+  // Normaliza valor float para litro.
+  static normalizeLiter(param) {
+    return this.normalizeMeas(param) + ' lt';
+  }
+
+  // Normaliza valor float para quilograma.
+  static normalizeKilo(param) {
+    return this.normalizeMeas(param) + ' kg';
+  }
+
   // Normaliza valor float para monetário.
   static normalizeCurrency(param) {
     var value = String(param);
+    // se não há vírgula, completa a máscara
     if (!value.includes('.')) {
       return value += ',00';
     }
     value = value.replace('.', ',');
+    // se existe apenas 1 caractere após a vírgula, completa o zero
     if (value.split(',')[1].length === 1) {
       value += '0';
     }

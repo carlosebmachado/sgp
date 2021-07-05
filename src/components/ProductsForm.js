@@ -21,9 +21,9 @@ class ProductsForm extends React.Component {
 
       // aplica as máscaras
       if (editProduct['unity'] === 'Litro') {
-        editProduct['amount'] = String(editProduct['amount']).replace('.', ',') + ' lt';
+        editProduct['amount'] = Mask.normalizeLiter(editProduct['amount']);
       } else if (editProduct['unity'] === 'Quilograma') {
-        editProduct['amount'] = String(editProduct['amount']).replace('.', ',') + ' kg';
+        editProduct['amount'] = Mask.normalizeKilo(editProduct['amount']);
       } else {
         editProduct['amount'] = String(editProduct['amount']) + ' un';
       }
@@ -86,6 +86,16 @@ class ProductsForm extends React.Component {
   }
 
   handleUnityChange(event) {
+    // aplica as máscaras dependendo da un. de medida selecionada
+    if (event.target.value === 'Litro') {
+      this.setState({ amount: Mask.literMask(this.state.amount) });
+    } else if (event.target.value === 'Quilograma') {
+      this.setState({ amount: Mask.kiloMask(this.state.amount) });
+    } else if (event.target.value === 'Unidade') {
+      this.setState({ amount: Mask.unityMask(this.state.amount) });
+    } else {
+      this.setState({ amount: '' });
+    }
     this.setState({ unity: event.target.value });
   }
 
